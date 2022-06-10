@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Rating from './Rating'
 
 export default function ProductComp({ product }) {
+  
   return (
     <Card className='my-3 p-3 rounded'>
       <Link to={`/products/${product._id}`}>
