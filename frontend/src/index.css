@@ -12,3 +12,12 @@ code {
 main {
     min-height: 80vh;
 }
+
+h1 {
+    font-size: 1.8rem;
+}
+
+h2 {
+    font-size: 1.4rem;
+    padding: 0.1rem;
+}
