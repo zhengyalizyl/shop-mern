@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import { useSearchParams,useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../actions/cartActions';
+import { addToCart,removeToCart } from '../actions/cartActions';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
@@ -19,8 +19,8 @@ export default function Cart() {
   
     const  {cartItems }=useSelector(state=>state.cart)
     
-  const removeFromCartHandler = () => {
-
+  const removeFromCartHandler = (id) => {
+    dispatch(removeToCart(id))
   }
 
   const checkoutHandler = () => {

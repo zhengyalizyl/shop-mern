@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { CART_ADD_ITEM } from '../constants/cartConstants';
-import { useStore } from 'react-redux'
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from '../constants/cartConstants';
 import store from '../store';
 
-export const addToCart = (id, qty) => async(dispatch) => {
+export const addToCart = (id, qty) => async(dispatch, getState) => {
     try {
         const { data: { data, success } } = await axios.get(`/api/products/${id}`);
 
@@ -17,7 +16,6 @@ export const addToCart = (id, qty) => async(dispatch) => {
                     ...res
                 }
             })
-            const { getState } = store;
             localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
         } else {
 
@@ -25,4 +23,12 @@ export const addToCart = (id, qty) => async(dispatch) => {
     } catch (error) {
 
     }
+}
+
+export const removeToCart = (id) => async(dispatch, getState) => {
+    dispatch({
+        type: CART_REMOVE_ITEM,
+        payload: id
+    })
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems))
 }
