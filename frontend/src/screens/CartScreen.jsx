@@ -1,24 +1,26 @@
-import React,{useEffect} from 'react';
-import { useSearchParams,useParams } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useSearchParams, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart,removeToCart } from '../actions/cartActions';
+import { addToCart, removeToCart } from '../actions/cartActions';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import { Link } from 'react-router-dom';
+
+
 export default function Cart() {
-  const [searchParams, setSearchParams] = useSearchParams(); 
-    const qty = searchParams.get("qty")||1;
-    const params = useParams();
-    const dispatch = useDispatch();
-    const { id } = params;
-    useEffect(() => {
-      if(id){
-        dispatch(addToCart(id,qty))
-      }
-    }, [id,dispatch,qty]);
-  
-    const  {cartItems }=useSelector(state=>state.cart)
-    
+  const [searchParams, setSearchParams] = useSearchParams();
+  const qty = searchParams.get("qty") || 1;
+  const params = useParams();
+  const dispatch = useDispatch();
+  const { id } = params;
+  useEffect(() => {
+    if (id) {
+      dispatch(addToCart(id, qty))
+    }
+  }, [id, dispatch, qty]);
+
+  const { cartItems } = useSelector(state => state.cart)
+
   const removeFromCartHandler = (id) => {
     dispatch(removeToCart(id))
   }
@@ -26,15 +28,15 @@ export default function Cart() {
   const checkoutHandler = () => {
   }
 
-    return (
-      <Row>
+  return (
+    <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
-        { cartItems.length === 0 ? (
+        {cartItems.length === 0 ? (
           <Message>Your cart is empty <Link to="/">Go Back</Link></Message>
         ) : (
           <ListGroup variant="flush">
-            { cartItems.map((item) => (
+            {cartItems.map((item) => (
               <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
@@ -52,9 +54,9 @@ export default function Cart() {
                       value={item.qty}
                       onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
                     >
-                      { [...Array(item.countInStock).keys()].map((x) => (
+                      {[...Array(item.countInStock).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>{x + 1}</option>
-                      )) }
+                      ))}
                     </Form.Control>
                   </Col>
                   <Col md={2}>
@@ -68,7 +70,7 @@ export default function Cart() {
                   </Col>
                 </Row>
               </ListGroup.Item>
-            )) }
+            ))}
           </ListGroup>
         )}
       </Col>
@@ -93,5 +95,5 @@ export default function Cart() {
         </Card>
       </Col>
     </Row>
-    )
+  )
 }

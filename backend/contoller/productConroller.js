@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 import Product from '../models/productModel.js'
 
+// @desc Fetch all products
+// @route GET /api/products
+// @access Public
 export const getProducts = async(req, res, next) => {
     try {
         const products = await Product.find({});
@@ -13,6 +16,9 @@ export const getProducts = async(req, res, next) => {
     }
 }
 
+// @desc Fetch single products
+// @route GET /api/products/:id
+// @access Public
 export const getProduct = async(req, res, next) => {
     try {
         const { id } = req.params;

@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcryptjs';
+
+
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -19,6 +22,26 @@ const userSchema = mongoose.Schema({
         default: false
     },
 }, { timestamps: true })
+
+
+userSchema.methods.matchPassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+}
+
+userSchema.pre('save', async function(next) {
+
+    if (!this.isModified('password')) {
+        next()
+    }
+    //改变密码的时候才会去执行一下数据
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt)
+    } catch (error) {
+        next(error)
+    }
+
+})
 
 const User = mongoose.model("user", userSchema);
 

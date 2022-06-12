@@ -3,21 +3,27 @@ import dotenv from "dotenv";
 import connectDB from './config/db.js';
 import colors from 'colors';
 import productRoutes from './routes/productRoutes.js';
-import { errorHandlermiddleware } from './middleware/errorHandler.middleware.js'
-import { notFound } from './middleware/notFound.middlerware.js'
+import userRoutes from './routes/userRoutes.js';
+import { errorHandlermiddleware } from './middleware/errorHandler.middleware.js';
+import { notFound } from './middleware/notFound.middlerware.js';
+import cors from "cors";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
-
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.send('API is running...');
 })
 
-app.use('/api/products', productRoutes)
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(notFound)
 app.use(errorHandlermiddleware)
