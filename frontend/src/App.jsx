@@ -24,6 +24,7 @@ export default function App() {
                         <Route path="cart/:id/*" element={<CartScreen />} />
                         <Route path="login" element={<LoginScreen/>}/>
                         <Route path="register" element={<RegisterScreen/>}/>
+                        <Route path="test" element={<RegisterScreen/>}/>
                         <Route
                             path="*"
                             element={
