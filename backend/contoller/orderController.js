@@ -41,3 +41,25 @@ export const addOrderItems = async(req, res, next) => {
         next(error)
     }
 }
+
+
+// @desc get order
+// @route get /api/orders/:id
+// @access Private
+export const getOrderById = async(req, res, next) => {
+    try {
+        const order = await Order.findById(req.params.id).populate('user', 'name email');
+
+        if (order) {
+            res.json({
+                success: true,
+                data: order
+            })
+        } else {
+            res.status(404);
+            throw new Error('order not found')
+        }
+    } catch (error) {
+        next(error)
+    }
+}

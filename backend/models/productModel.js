@@ -6,7 +6,7 @@ import reviewModel from './reviewModel.js'
 const productSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     name: {

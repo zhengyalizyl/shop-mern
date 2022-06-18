@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const orderSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user', //这里必须小写
         required: true
     },
     orderItems: [{
@@ -49,6 +49,6 @@ const orderSchema = mongoose.Schema({
     deliverdAt: { type: Date }
 }, { timestamps: true })
 
-const Order = mongoose.model("order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
 export default Order;
