@@ -16,14 +16,13 @@ export default function RegisterScreen() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
-    const [error,setError]=useState('')
-    const redirect = searchParams.get("redirect") || '/';
+    const [message, setMessage] = useState(null);
+    const redirect= searchParams.get("redirect") || '/';
     const dispatch = useDispatch();
-    const userLogin = useSelector((state) => state.userLogin);
-    const { loading, error:oldError, userInfo } = userLogin;
+    const userRegister = useSelector((state) => state.userRegister);
+    const { loading, error, userInfo } = userRegister;
     const navigate = useNavigate();
-    setError(oldError)
-
+  
     useEffect(() => {
         if (userInfo) {
             navigate(redirect)
@@ -34,7 +33,7 @@ export default function RegisterScreen() {
     const submitHandler = (e) => {
         e.preventDefault();
         if(password!==confirmPassword){
-            setError('password not match')
+            setMessage('password not match')
             return;
         }
         dispatch(register(email, password,name));
@@ -43,13 +42,13 @@ export default function RegisterScreen() {
     return (
         <FormContainer>
             <h1>Sign up</h1>
-            {error && <Message variant='danger'>{error}</Message>}
+            {(error||message) && <Message variant='danger'>{error||message}</Message>}
             {loading && <Loader />}
             <Form onSubmit={submitHandler}>
-                <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
+                <Form.Group controlId='name'>
+                    <Form.Label>Name</Form.Label>
                     <Form.Control
-                        type="name"
+                        type="text"
                         placeholder="Enter name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -75,7 +74,7 @@ export default function RegisterScreen() {
                     ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
                         type="password"
                         placeholder="Enter password"

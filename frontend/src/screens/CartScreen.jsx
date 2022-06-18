@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeToCart } from '../actions/cartActions';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 
 
 export default function Cart() {
@@ -12,6 +12,8 @@ export default function Cart() {
   const qty = searchParams.get("qty") || 1;
   const params = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { id } = params;
   useEffect(() => {
     if (id) {
@@ -26,7 +28,11 @@ export default function Cart() {
   }
 
   const checkoutHandler = () => {
+    //先判断有没有登录再去跳转到地址页面
+    navigate('/login?redirect=shipping')
+    // navigate('/shipping')
   }
+
 
   return (
     <Row>

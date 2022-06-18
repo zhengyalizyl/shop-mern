@@ -14,7 +14,7 @@ export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
-   const redirect =searchParams.get("redirect")||'/';
+    const redirect =searchParams.get("redirect")||'/';
     const dispatch = useDispatch();
     const userLogin = useSelector((state) => state.userLogin);
     const { loading, error, userInfo } = userLogin;

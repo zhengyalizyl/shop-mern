@@ -6,9 +6,9 @@ import { listProducts } from '../actions/productActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 
-
 export default function HomeScreen() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    
 
     useEffect(() => {
         dispatch(listProducts())
