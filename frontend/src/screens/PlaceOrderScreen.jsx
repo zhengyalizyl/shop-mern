@@ -11,6 +11,21 @@ import {ORDER_CREATE_RESET} from '../constants/orderConstants';
 export default function PlaceOrderScreen() {
     const dispatch = useDispatch()
     let cart = useSelector((state) => state.cart);
+    const { shippingAddress} = cart;
+
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+    useEffect(() => {
+        if (Object.keys(shippingAddress).length === 0) {
+            navigate('/shipping')
+        }
+    }, [shippingAddress])
+
+    useEffect(() => {
+        if (!userInfo) {
+            navigate('/login')
+        }
+    }, [userInfo])
     const navigate = useNavigate();
 
     const addDecimals = (num) => {
@@ -53,7 +68,8 @@ export default function PlaceOrderScreen() {
             paymentMethod: cart.paymentMethod,
             itemsPrice: cart.itemsPrice,
             taxPrice: cart.taxPrice,
-            totalPrice: cart.totalPrice
+            totalPrice: cart.totalPrice,
+            shippingAddress:cart.shippingAddress
         }))
 
     }
@@ -141,6 +157,9 @@ export default function PlaceOrderScreen() {
                                     <Col>Total</Col>
                                     <Col>${cart.totalPrice}</Col>
                                 </Row>
+                            </ListGroup.Item>
+                            <ListGroup.Item>
+                                {error&&<Message variant='danger'>{error}</Message>}
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Button
