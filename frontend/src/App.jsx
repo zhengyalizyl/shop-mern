@@ -11,6 +11,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
+import PaymentScreen from './screens/PaymentScreen';
 
 export default function App() {
     return (
@@ -29,6 +30,8 @@ export default function App() {
                         {/* <Route path="test" element={<RegisterScreen/>}/> */}
                         <Route path="profile" element={<ProfileScreen/>}/>
                         <Route path="shipping" element={<ShippingScreen/>}/>
+                        <Route path="payment" element={<PaymentScreen/>}/>
+                        
                     
                         <Route
                             path="*"

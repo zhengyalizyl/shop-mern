@@ -21,7 +21,9 @@ export default function Cart() {
     }
   }, [id, dispatch, qty]);
 
-  const { cartItems } = useSelector(state => state.cart)
+  const { cartItems } = useSelector(state => state.cart);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const removeFromCartHandler = (id) => {
     dispatch(removeToCart(id))
@@ -29,7 +31,7 @@ export default function Cart() {
 
   const checkoutHandler = () => {
     //先判断有没有登录再去跳转到地址页面
-    navigate('/login?redirect=shipping')
+   !userInfo? navigate('/login?redirect=/shipping'):navigate('/shipping')
     // navigate('/shipping')
   }
 

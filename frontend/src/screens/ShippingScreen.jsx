@@ -1,38 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
-import { Link } from 'react-router-dom';
-import { register } from '../actions/userActions';
+import { useNavigate } from 'react-router-dom';
+import { saveSHippingAddress } from '../actions/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
-import Message from '../components/Message';
-import Loader from '../components/Loader';
-import { useSearchParams, useNavigate } from 'react-router-dom';
 
 //填写地址之前得先登录
 export default function ShippingScreen() {
-    const [address, setAdress] = useState('');
-    const [city, setCity] = useState('');
-    const [postalCode, setPostalCode] = useState('');
-    const [country, setCountry] = useState('');
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [message, setMessage] = useState(null);
-    const redirect= searchParams.get("redirect") || '/';
+    const cart=useSelector(state=>state.cart);
+    const {shippingAddress} =cart;
+    const [address, setAdress] = useState(shippingAddress.address);
+    const [city, setCity] = useState(shippingAddress.city);
+    const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+    const [country, setCountry] = useState(shippingAddress.country);
     const dispatch = useDispatch();
-    const userRegister = useSelector((state) => state.userRegister);
-
-
-
+    const navigate=useNavigate();
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(register(address,country,city,postalCode));
+        dispatch(saveSHippingAddress(address,country,city,postalCode));
+        navigate('/payment');
     }
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+  
+    useEffect(() => {
+      if (!userInfo) {
+        navigate('/login')
+      }
+    }, [userInfo])
 
     return (
         <FormContainer>
             <h1>Shipping</h1>
-            {/* {(error||message) && <Message variant='danger'>{error||message}</Message>}
-            {loading && <Loader />} */}
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='address'>
                     <Form.Label>Address</Form.Label>

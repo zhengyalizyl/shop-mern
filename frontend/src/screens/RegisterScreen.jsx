@@ -17,12 +17,12 @@ export default function RegisterScreen() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const [message, setMessage] = useState(null);
-    const redirect= searchParams.get("redirect") || '/';
+    const redirect= '/'+(searchParams.get("redirect") || '');
     const dispatch = useDispatch();
-    const userRegister = useSelector((state) => state.userRegister);
-    const { loading, error, userInfo } = userRegister;
+    const userLogin = useSelector((state) => state.userLogin);
+    const { loading, error, userInfo } = userLogin;
     const navigate = useNavigate();
-  
+
     useEffect(() => {
         if (userInfo) {
             navigate(redirect)
