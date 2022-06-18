@@ -63,6 +63,7 @@ export default function ProfileScreen() {
               type="text"
               placeholder="Enter name"
               value={name}
+              required
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
@@ -72,6 +73,7 @@ export default function ProfileScreen() {
               type="email"
               placeholder="Enter email"
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
             ></Form.Control>
           </Form.Group>
@@ -82,6 +84,7 @@ export default function ProfileScreen() {
               type="password"
               placeholder="Enter password"
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
@@ -91,6 +94,7 @@ export default function ProfileScreen() {
               type="password"
               placeholder="Enter password"
               value={confirmPassword}
+              required
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>

@@ -17,15 +17,19 @@ const reducer = combineReducers({
 
 const cartItems = localStorage.getItem('cartItems');
 const userInfo = localStorage.getItem('userInfo');
-const shippingAddress = localStorage.getItem('shippingAdress')
+const shippingAddress = localStorage.getItem('shippingAdress');
+const paymentMenthod = localStorage.getItem('paymentMethod');
+
 const cartItemsFromStorage = cartItems ? JSON.parse(cartItems) : [];
 const userItemsFromStorage = userInfo ? JSON.parse(userInfo) : null;
 const shippingAddressFromStorage = shippingAddress ? JSON.parse(shippingAddress) : {};
+const paymentMenthodFromStorage = paymentMenthod ? JSON.parse(paymentMenthod) : 'PayPal';
 
 const initialState = {
     cart: {
         cartItems: cartItemsFromStorage,
-        shippingAddress: shippingAddressFromStorage
+        shippingAddress: shippingAddressFromStorage,
+        paymentMethod: paymentMenthodFromStorage
     },
     userLogin: { userInfo: userItemsFromStorage },
 };

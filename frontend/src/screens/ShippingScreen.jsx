@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import FormContainer from '../components/FormContainer';
 import { useNavigate } from 'react-router-dom';
-import { saveSHippingAddress } from '../actions/cartActions';
+import { saveShippingAddress } from '../actions/cartActions';
 import { useDispatch, useSelector } from 'react-redux';
+import CheckoutSteps from '../components/CheckoutSteps';
 
 //填写地址之前得先登录
 export default function ShippingScreen() {
@@ -18,7 +19,7 @@ export default function ShippingScreen() {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        dispatch(saveSHippingAddress(address,country,city,postalCode));
+        dispatch(saveShippingAddress({address,country,city,postalCode}));
         navigate('/payment');
     }
     const userLogin = useSelector((state) => state.userLogin);
@@ -32,6 +33,7 @@ export default function ShippingScreen() {
 
     return (
         <FormContainer>
+            <CheckoutSteps step1 step2/>
             <h1>Shipping</h1>
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId='address'>
@@ -40,6 +42,7 @@ export default function ShippingScreen() {
                         type="text"
                         placeholder="Enter address"
                         value={address}
+                        required
                         onChange={(e) => setAdress(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -49,6 +52,7 @@ export default function ShippingScreen() {
                         type="text"
                         placeholder="Enter city"
                         value={city}
+                        required
                         onChange={(e) => setCity(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
@@ -59,15 +63,17 @@ export default function ShippingScreen() {
                         type="text"
                         placeholder="Enter postalCode"
                         value={postalCode}
+                        required
                         onChange={(e) => setPostalCode(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId='country'>
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>country</Form.Label>
                     <Form.Control
                         type="country"
                         placeholder="Enter country"
                         value={country}
+                        required
                         onChange={(e) => setCountry(e.target.value)}
                     ></Form.Control>
                 </Form.Group>
