@@ -8,6 +8,7 @@ import { errorHandlermiddleware } from './middleware/errorHandler.middleware.js'
 import { notFound } from './middleware/notFound.middlerware.js';
 import cors from "cors";
 import bodyParser from "body-parser";
+import orderRoutes from './routes/orderRoutes.js'
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/orders', orderRoutes)
 
 app.use(notFound)
 app.use(errorHandlermiddleware)
