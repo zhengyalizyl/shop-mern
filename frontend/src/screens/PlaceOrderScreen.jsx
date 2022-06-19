@@ -56,10 +56,8 @@ export default function PlaceOrderScreen() {
             navigate(`/order/${order._id}`);
             dispatch({ type: ORDER_CREATE_RESET });
         }
-    }, [success]);
-    useEffect(() => {
+    }, [success,dispatch]);
 
-    }, [success])
     const placeOrderHandler = (e) => {
         e.preventDefault();
         dispatch(createOrder({

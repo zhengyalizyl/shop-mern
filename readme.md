@@ -9,3 +9,10 @@ https://cdnjs.com/libraries/font-awesome
 
 
 http://localhost:3000/
+
+支付功能，先登录https://developer.paypal.com/developer/applications/
+https://developer.paypal.com/docs/checkout/reference/customize-sdk/
+
+https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
+
+https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
