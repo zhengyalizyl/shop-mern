@@ -93,3 +93,21 @@ export const updateOrderToPaid = async(req, res, next) => {
         next(error)
     }
 }
+
+
+// @desc get order to paid
+// @route get /api/orders/myorders
+// @access Private
+export const getMyOrder = async(req, res, next) => {
+    try {
+        const orders = await Order.find({ user: req.user._id });
+        // const orders = await Order.find();
+
+        res.json({
+            success: true,
+            data: orders
+        })
+    } catch (error) {
+        next(error)
+    }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Button, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -20,7 +20,9 @@ export default function OrderScreen({ match }) {
 
     const orderPay=useSelector(state=>state.orderPay);
     const {loading:loadingPay,success:successPay} =orderPay;
-  
+    const navigate = useNavigate();
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
 
     if (!loading) {
         const addDecimals = (num) => {
@@ -33,6 +35,9 @@ export default function OrderScreen({ match }) {
     }
 
     useEffect(() => {
+        if (!userInfo) {
+            navigate('/login')
+        }
         const addPayPalScript = async () => {
             const { data: clientId } = await axios.get('/api/config/paypal');
             const script = document.createElement('script');
@@ -63,7 +68,7 @@ export default function OrderScreen({ match }) {
                 setSdkReady(true)
             }
         }
-    }, [orderId, dispatch,order,sdkReady,successPay]);
+    }, [orderId, dispatch,order,sdkReady,successPay,userInfo]);
 
     const successPatmentHandler=(paymentResult)=>{
         dispatch(payOrder(orderId,paymentResult))

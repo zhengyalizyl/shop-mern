@@ -3,7 +3,6 @@ import User from '../models/userModel.js'
 
 export const auth = async(req, res, next) => {
     const authorizationHeader = req.headers["authorization"];
-    console.log(authorizationHeader, '=========')
     if (authorizationHeader && authorizationHeader.startsWith('Bearer')) {
         try {
             const token = authorizationHeader.split('Bearer ')[1];

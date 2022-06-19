@@ -12,7 +12,7 @@ export default function PlaceOrderScreen() {
     const dispatch = useDispatch()
     let cart = useSelector((state) => state.cart);
     const { shippingAddress} = cart;
-
+    const navigate = useNavigate();
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
     useEffect(() => {
@@ -26,7 +26,7 @@ export default function PlaceOrderScreen() {
             navigate('/login')
         }
     }, [userInfo])
-    const navigate = useNavigate();
+ 
 
     const addDecimals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
