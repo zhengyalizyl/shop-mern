@@ -16,3 +16,7 @@ https://developer.paypal.com/docs/checkout/reference/customize-sdk/
 https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
 
 https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+
+https://developer.paypal.com/docs/checkout/integrate/
+
+https://www.npmjs.com/package/react-paypal-button-v2

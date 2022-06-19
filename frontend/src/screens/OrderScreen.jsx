@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import axios from "axios";
-import { getOrderDetails } from "../actions/orderActions";
+import { getOrderDetails,payOrder } from "../actions/orderActions";
+import { PayPalButton } from "react-paypal-button-v2";
+import {ORDER_PAY_RESET} from '../constants/orderConstants'
 
 export default function OrderScreen({ match }) {
     const params = useParams();
@@ -15,7 +17,10 @@ export default function OrderScreen({ match }) {
 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, loading, error } = orderDetails;
-    console.log(orderDetails)
+
+    const orderPay=useSelector(state=>state.orderPay);
+    const {loading:loadingPay,success:successPay} =orderPay;
+  
 
     if (!loading) {
         const addDecimals = (num) => {
@@ -30,7 +35,6 @@ export default function OrderScreen({ match }) {
     useEffect(() => {
         const addPayPalScript = async () => {
             const { data: clientId } = await axios.get('/api/config/paypal');
-            console.log(clientId,'============')
             const script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
@@ -44,12 +48,13 @@ export default function OrderScreen({ match }) {
         // 第一次加载页面时，order 是 undefined
         // 第一次只会执行 dispatch(getOrderDetails(orderId))
         // 当执行完 dispatch(getOrderDetails(orderId)) 之后，order 变化，有值就会执行 addPayPalScript
-        if (!order) {
+        if (!order||successPay) {
+            dispatch({type:ORDER_PAY_RESET});
             dispatch(getOrderDetails(orderId))
             // 有 order，还没有支付
             // 有 order 之后支付才有意义
         } else if (!order.isPaid) {
-           
+
             // 没有加载 script，就是没有执行 addPayPalScript
             if (!window.paypal) {
                 addPayPalScript();
@@ -58,7 +63,11 @@ export default function OrderScreen({ match }) {
                 setSdkReady(true)
             }
         }
-    }, [orderId,dispatch]);
+    }, [orderId, dispatch,order,sdkReady,successPay]);
+
+    const successPatmentHandler=(paymentResult)=>{
+        dispatch(payOrder(orderId,paymentResult))
+    }
 
     return loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : <>
         <h1>Order {order._id}</h1>
@@ -160,6 +169,19 @@ export default function OrderScreen({ match }) {
                                 <Col>${order.totalPrice}</Col>
                             </Row>
                         </ListGroup.Item>
+                        {loadingPay&&<Loader/>}
+                        {!order.isPaid && (
+                            <ListGroup.Item>
+                                {!sdkReady ? (
+                                    <Loader />
+                                ) : (
+                                    <PayPalButton
+                                    onSuccess={successPatmentHandler}
+                                        amount={order.totalPrice}
+                                    />
+                                )}
+                            </ListGroup.Item>
+                        )}
                     </ListGroup>
                 </Card>
             </Col>
