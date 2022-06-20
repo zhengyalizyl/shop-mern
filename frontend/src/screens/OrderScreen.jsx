@@ -53,7 +53,7 @@ export default function OrderScreen({ match }) {
         // 第一次加载页面时，order 是 undefined
         // 第一次只会执行 dispatch(getOrderDetails(orderId))
         // 当执行完 dispatch(getOrderDetails(orderId)) 之后，order 变化，有值就会执行 addPayPalScript
-        if (!order||successPay) {
+        if (!order||successPay||order._id!==orderId) {
             dispatch({type:ORDER_PAY_RESET});
             dispatch(getOrderDetails(orderId))
             // 有 order，还没有支付
