@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Container, Nav,NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
@@ -8,6 +8,7 @@ export default function Header() {
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin;
     const dispatch = useDispatch()
+
 
     const logoutHandler = () => {
         dispatch(logout());
@@ -42,6 +43,19 @@ export default function Header() {
                                         <i className="fas fa-user"></i>Sign In
                                     </Nav.Link>
                                 </LinkContainer>
+                            )}
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title='Admin' id='adminmenu'>
+                                    <LinkContainer to="/admin/userlist">
+                                        <NavDropdown.Item>Users</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to="/admin/productlist">
+                                        <NavDropdown.Item>Products</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to="/admin/orderlist">
+                                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavDropdown>
                             )}
                         </Nav>
                     </Navbar.Collapse>

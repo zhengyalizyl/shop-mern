@@ -16,6 +16,24 @@ export const getProducts = async(req, res, next) => {
     }
 }
 
+// @desc delete products by id
+// @route delete /api/products/:id
+// @access private/admin
+export const deleteProduct = async(req, res, next) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (product) {
+            await product.remove();
+            res.json({ success: true, message: 'Product removed' })
+        } else {
+            res.status(404)
+            throw new Error('Product not found')
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+
 // @desc Fetch single products
 // @route GET /api/products/:id
 // @access Public
