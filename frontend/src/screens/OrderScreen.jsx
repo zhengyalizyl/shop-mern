@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import axios from "axios";
-import { getOrderDetails,payOrder } from "../actions/orderActions";
+import { getOrderDetails,payOrder,deliveredOrder } from "../actions/orderActions";
 import { PayPalButton } from "react-paypal-button-v2";
-import {ORDER_PAY_RESET} from '../constants/orderConstants'
+import {ORDER_DELIVERED_RESET, ORDER_PAY_RESET} from '../constants/orderConstants'
 
 export default function OrderScreen({ match }) {
     const params = useParams();
@@ -20,6 +20,8 @@ export default function OrderScreen({ match }) {
 
     const orderPay=useSelector(state=>state.orderPay);
     const {loading:loadingPay,success:successPay} =orderPay;
+    const orderDelivered=useSelector(state=>state.orderDelivered);
+    const {loading:loadingDelivered,success:successDelivered} =orderDelivered;
     const navigate = useNavigate();
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
@@ -53,8 +55,9 @@ export default function OrderScreen({ match }) {
         // 第一次加载页面时，order 是 undefined
         // 第一次只会执行 dispatch(getOrderDetails(orderId))
         // 当执行完 dispatch(getOrderDetails(orderId)) 之后，order 变化，有值就会执行 addPayPalScript
-        if (!order||successPay||order._id!==orderId) {
+        if (!order||successPay||successDelivered||order._id!==orderId) {
             dispatch({type:ORDER_PAY_RESET});
+            dispatch({type:ORDER_DELIVERED_RESET});
             dispatch(getOrderDetails(orderId))
             // 有 order，还没有支付
             // 有 order 之后支付才有意义
@@ -68,10 +71,14 @@ export default function OrderScreen({ match }) {
                 setSdkReady(true)
             }
         }
-    }, [orderId, dispatch,order,sdkReady,successPay,userInfo]);
+    }, [orderId, dispatch,order,sdkReady,successPay,userInfo,successDelivered,navigate]);
 
     const successPatmentHandler=(paymentResult)=>{
         dispatch(payOrder(orderId,paymentResult))
+    }
+
+    const deliverHandler=()=>{
+        dispatch(deliveredOrder(orderId))
     }
 
     return loading ? <Loader /> : error ? <Message variant="danger">{error}</Message> : <>
@@ -187,6 +194,20 @@ export default function OrderScreen({ match }) {
                                 )}
                             </ListGroup.Item>
                         )}
+                       
+                        {loadingDelivered&&<Loader/>}
+                        {userInfo&&userInfo.isAdmin&&!order.isDelivered && (
+                            <ListGroup.Item>
+                              <Button
+                               type="button"
+                               className="btn btn-block"
+                               onClick={deliverHandler}
+                              >
+                                  Mark As Delivered
+                              </Button>
+                            </ListGroup.Item>
+                        )}
+                       
                     </ListGroup>
                 </Card>
             </Col>

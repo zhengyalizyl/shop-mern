@@ -68,18 +68,41 @@ export const getOrderById = async(req, res, next) => {
 // @route upate /api/orders/:id/pay
 // @access Private
 export const updateOrderToPaid = async(req, res, next) => {
+        try {
+            const order = await Order.findById(req.params.id);
+
+            if (order) {
+                order.isPaid = true;
+                order.paidAt = Date.now();
+                order.paymentResult = {
+                    id: req.body.id,
+                    status: req.body.status,
+                    update_time: req.body.update_time,
+                    email_address: req.body.email_address
+                }
+                const updateOrder = await order.save()
+                res.json({
+                    success: true,
+                    data: updateOrder
+                })
+            } else {
+                res.status(404);
+                throw new Error('order not found')
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+    // @desc update order to paid
+    // @route upate /api/orders/:id/delivered
+    // @access Private
+export const updateOrderToDelivered = async(req, res, next) => {
     try {
         const order = await Order.findById(req.params.id);
 
         if (order) {
-            order.isPaid = true;
-            order.paidAt = Date.now();
-            order.paymentResult = {
-                id: req.body.id,
-                status: req.body.status,
-                update_time: req.body.update_time,
-                email_address: req.body.email_address
-            }
+            order.isDelivered = true;
+            order.deliveredAt = Date.now();
             const updateOrder = await order.save()
             res.json({
                 success: true,

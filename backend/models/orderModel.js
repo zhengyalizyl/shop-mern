@@ -46,7 +46,7 @@ const orderSchema = mongoose.Schema({
     isPaid: { type: Boolean, required: true, default: false },
     paidAt: { type: Date },
     isDelivered: { type: Boolean, required: true, default: false },
-    deliverdAt: { type: Date }
+    deliveredAt: { type: Date }
 }, { timestamps: true })
 
 const Order = mongoose.model("Order", orderSchema);
