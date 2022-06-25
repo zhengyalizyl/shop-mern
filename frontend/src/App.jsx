@@ -18,6 +18,7 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/products/ProductEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 export default function App() {
     return (
@@ -41,8 +42,9 @@ export default function App() {
                         <Route path="order/:id" element={<OrderScreen/>}/>
                         <Route path="admin/userlist" element={<UserListScreen/>}/>
                         <Route path="admin/user/:id/edit" element={<UserEditScreen/>}/>
-                        <Route path="/admin/productList" element={<ProductListScreen/>} />
-                        <Route path="/admin/products/:id/edit" element={<ProductEditScreen/>} />
+                        <Route path="admin/productList" element={<ProductListScreen/>} />
+                        <Route path="admin/products/:id/edit" element={<ProductEditScreen/>} />
+                        <Route path="admin/orderlist" element={<OrderListScreen/>} />
 
                         <Route
                             path="*"

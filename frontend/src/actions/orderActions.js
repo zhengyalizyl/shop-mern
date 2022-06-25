@@ -14,6 +14,10 @@ import {
     ORDER_LIST_REQUEST,
     ORDER_LIST_RESET,
     ORDER_LIST_SUCCESS,
+    ORDER_MY_LIST_FAIL,
+    ORDER_MY_LIST_REQUEST,
+    ORDER_MY_LIST_RESET,
+    ORDER_MY_LIST_SUCCESS,
 } from "../constants/orderConstants";
 
 import { CART_REMOVE_ITEMS } from "../constants/cartConstants";
@@ -125,7 +129,7 @@ export const payOrder = (orderId, paymentResult) => async(dispatch, getState) =>
 export const listMyOrders = () => async(dispatch, getState) => {
 
     try {
-        dispatch({ type: ORDER_LIST_REQUEST });
+        dispatch({ type: ORDER_MY_LIST_REQUEST });
 
         const {
             userLogin: { userInfo },
@@ -138,6 +142,42 @@ export const listMyOrders = () => async(dispatch, getState) => {
             },
         };
         const { data: { data, success } } = await axios.get(`/api/orders/myorders`, config);
+        console.log(data, success)
+        if (success) {
+
+            dispatch({ type: ORDER_MY_LIST_SUCCESS, payload: data });
+        } else {
+            dispatch({
+                type: ORDER_MY_LIST_FAIL
+            });
+        }
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_MY_LIST_FAIL,
+            payload: error.response && error.response.data.message ?
+                error.response.data.message : error.message,
+        });
+    }
+};
+
+
+export const listOrders = () => async(dispatch, getState) => {
+
+    try {
+        dispatch({ type: ORDER_LIST_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+        const { data: { data, success } } = await axios.get(`/api/orders`, config);
         console.log(data, success)
         if (success) {
 

@@ -111,3 +111,19 @@ export const getMyOrder = async(req, res, next) => {
         next(error)
     }
 }
+
+
+// @desc get all orders
+// @route get /api/orders
+// @access Private/admin
+export const getOrders = async(req, res, next) => {
+    try {
+        const orders = await Order.find({}).populate('user', 'id name')
+        res.json({
+            success: true,
+            data: orders
+        })
+    } catch (error) {
+        next(error)
+    }
+}
