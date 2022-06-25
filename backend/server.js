@@ -9,6 +9,8 @@ import { notFound } from './middleware/notFound.middlerware.js';
 import cors from "cors";
 import bodyParser from "body-parser";
 import orderRoutes from './routes/orderRoutes.js'
+import path from "path";
+import uploadRoutes from './routes/uploadRoutes.js'
 
 dotenv.config();
 
@@ -26,6 +28,10 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
+app.use("/api/upload", uploadRoutes);
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, '/uploads'))); //静态文件访问
+
 app.get('/api/config/paypal', (req, res) => {
     res.send(process.env.PAYPAL_CLIENT_ID);
 })

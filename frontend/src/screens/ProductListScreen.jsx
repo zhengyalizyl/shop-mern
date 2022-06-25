@@ -1,4 +1,4 @@
-import React, { createElement, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listProducts,deleteProduct,createProduct } from '../actions/productActions';
 import {useNavigate}  from 'react-router-dom'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'; 
 
 export default function ProductListScreen() {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ export default function ProductListScreen() {
   useEffect(() => {
     if (userInfo && userInfo.isAdmin)  {
         if(successCreate){
-            console.log(createdProduct,'====')
+            dispatch({type:PRODUCT_CREATE_RESET})
             navigate(`/admin/products/${createdProduct._id}/edit`)
         }else{
             dispatch(listProducts())

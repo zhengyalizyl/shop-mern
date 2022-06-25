@@ -193,7 +193,6 @@ export const updateUser = (id, data) => async(dispatch, getState) => {
             }
         };
         const { data: { success } } = await axios.put(`/api/users/${id}`, data, config);
-        console.log(success, '=========')
         if (success) {
             dispatch({ type: USER_UPDATE_SUCCESS });
 
