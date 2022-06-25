@@ -11,12 +11,18 @@ import bodyParser from "body-parser";
 import orderRoutes from './routes/orderRoutes.js'
 import path from "path";
 import uploadRoutes from './routes/uploadRoutes.js'
+import morgan from "morgan";
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+
+if (process.env.NODE_ENV === "development") {
+    app.use(morgan("dev"));
+}
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
