@@ -1,30 +1,44 @@
-import mongoose from "mongoose";
 import Product from '../models/productModel.js'
 
 // @desc Fetch all products
 // @route GET /api/products
 // @access Public
 export const getProducts = async(req, res, next) => {
+        try {
+            const pageSize = 10;
+
+            const page = Number(req.query.pageNumber) || 1;
+            const keyword = req.query.keyword ? {
+                name: {
+                    $regex: req.query.keyword,
+                    $options: 'i'
+                }
+            } : {}
+
+            const count = await Product.countDocuments({...keyword });
+            const products = await Product.find({...keyword })
+                .limit(pageSize)
+                .skip(pageSize * (page - 1))
+
+            res.json({
+                success: true,
+                page,
+                pages: Math.ceil(count / pageSize),
+                data: products
+            })
+        } catch (error) {
+            next(error);
+        }
+    }
+    // @desc Fetch top rated products
+    // @route GET /api/products/top
+    // @access Public
+export const getTopProduct = async(req, res, next) => {
     try {
-        const pageSize = 10;
-
-        const page = Number(req.query.pageNumber) || 1;
-        const keyword = req.query.keyword ? {
-            name: {
-                $regex: req.query.keyword,
-                $options: 'i'
-            }
-        } : {}
-
-        const count = await Product.countDocuments({...keyword });
-        const products = await Product.find({...keyword })
-            .limit(pageSize)
-            .skip(pageSize * (page - 1))
+        const products = await Product.find({}).sort({ rating: -1 }).limit(3);
 
         res.json({
             success: true,
-            page,
-            pages: Math.ceil(count / pageSize),
             data: products
         })
     } catch (error) {
