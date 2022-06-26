@@ -27,16 +27,10 @@ import {
     USER_UPDATE_RESET
 } from '../constants/userConstants';
 
-export const login = (email, password) => async(dispatch, getState) => {
+export const login = (email, password) => async(dispatch) => {
     try {
         dispatch({ type: USER_LOGIN_REQUEST });
-        const config = {
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }
-        const { data: { data, success } } = await axios.post('/api/users/login', { email, password }, config);
-        console.log(data, success)
+        const { data: { data, success } } = await axios.post('/api/users/login', { email, password });
         if (success) {
             dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
             localStorage.setItem('userInfo', JSON.stringify(data))
@@ -53,15 +47,10 @@ export const login = (email, password) => async(dispatch, getState) => {
     }
 }
 
-export const register = (email, password) => async(dispatch, getState) => {
+export const register = (email, password) => async(dispatch) => {
     try {
         dispatch({ type: USER_REGISTER_REQUEST });
-        const config = {
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }
-        const { data: { data, success } } = await axios.post('/api/users/register', { email, password }, config);
+        const { data: { data, success } } = await axios.post('/api/users/register', { email, password });
         console.log(data, success)
         if (success) {
             dispatch({ type: USER_REGISTER_SUCCESS, payload: data }); //注册成功后，让其自动登录
@@ -81,16 +70,10 @@ export const register = (email, password) => async(dispatch, getState) => {
 }
 
 
-export const getUserDetails = (id) => async(dispatch, getState) => {
+export const getUserDetails = (id) => async(dispatch) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST })
-        const { userLogin: { userInfo } } = getState();
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        };
-        const { data: { success, data } } = await axios.get(`/api/users/${id}`, config);
+        const { data: { success, data } } = await axios.get(`/api/users/${id}`);
         if (success) {
             dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
 
@@ -105,16 +88,10 @@ export const getUserDetails = (id) => async(dispatch, getState) => {
         })
     }
 }
-export const updateUserProfile = (user) => async(dispatch, getState) => {
+export const updateUserProfile = (user) => async(dispatch) => {
     try {
-        const { userLogin: { userInfo } } = getState();
         dispatch({ type: USER_UPDATE_PROFILE_REQUEST })
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        };
-        const { data: { success, data } } = await axios.put(`/api/users/profile`, user, config);
+        const { data: { success, data } } = await axios.put(`/api/users/profile`, user);
         if (success) {
 
             dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, success: true, payload: data });
@@ -134,16 +111,10 @@ export const updateUserProfile = (user) => async(dispatch, getState) => {
 }
 
 
-export const listUsers = () => async(dispatch, getState) => {
+export const listUsers = () => async(dispatch) => {
     try {
         dispatch({ type: USER_LIST_REQUEST })
-        const { userLogin: { userInfo } } = getState();
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        };
-        const { data: { success, data } } = await axios.get(`/api/users`, config);
+        const { data: { success, data } } = await axios.get(`/api/users`);
         if (success) {
             dispatch({ type: USER_LIST_SUCCESS, payload: data });
 
@@ -159,16 +130,10 @@ export const listUsers = () => async(dispatch, getState) => {
     }
 }
 
-export const deleteUser = (id) => async(dispatch, getState) => {
+export const deleteUser = (id) => async(dispatch) => {
     try {
         dispatch({ type: USER_DELETE_REQUEST })
-        const { userLogin: { userInfo } } = getState();
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        };
-        const { data: { success } } = await axios.delete(`/api/users/${id}`, config);
+        const { data: { success } } = await axios.delete(`/api/users/${id}`);
         if (success) {
             dispatch({ type: USER_DELETE_SUCCESS });
 
@@ -183,16 +148,10 @@ export const deleteUser = (id) => async(dispatch, getState) => {
         })
     }
 }
-export const updateUser = (id, data) => async(dispatch, getState) => {
+export const updateUser = (id, data) => async(dispatch) => {
     try {
         dispatch({ type: USER_UPDATE_REQUEST })
-        const { userLogin: { userInfo } } = getState();
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`
-            }
-        };
-        const { data: { success } } = await axios.put(`/api/users/${id}`, data, config);
+        const { data: { success } } = await axios.put(`/api/users/${id}`, data);
         if (success) {
             dispatch({ type: USER_UPDATE_SUCCESS });
 

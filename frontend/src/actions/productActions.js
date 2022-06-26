@@ -72,21 +72,12 @@ export const getProduct = (id) => async(dispatch) => {
 
 }
 
-export const deleteProduct = (id) => async(dispatch, getState) => {
+export const deleteProduct = (id) => async(dispatch) => {
     try {
         dispatch({ type: PRODUCT_DELETE_REQUEST })
 
-        const { userLogin: { userInfo } } = getState();
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
-
         await axios.delete(
-            `/api/products/${id}`,
-            config
+            `/api/products/${id}`
         )
         dispatch({ type: PRODUCT_DELETE_SUCCESS })
 
@@ -100,21 +91,12 @@ export const deleteProduct = (id) => async(dispatch, getState) => {
 }
 
 
-export const createProduct = () => async(dispatch, getState) => {
+export const createProduct = () => async(dispatch) => {
     try {
         dispatch({ type: PRODUCT_CREATE_REQUEST })
 
-        const { userLogin: { userInfo } } = getState()
-
-        const config = {
-            headers: {
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
-
         const { data: { data, success } } = await axios.post(
             `/api/products`, {},
-            config
         )
         if (success) {
 
@@ -135,23 +117,14 @@ export const createProduct = () => async(dispatch, getState) => {
 }
 
 
-export const updateProduct = (product) => async(dispatch, getState) => {
+export const updateProduct = (product) => async(dispatch) => {
     try {
         dispatch({ type: PRODUCT_UPDATE_REQUEST })
 
-        const { userLogin: { userInfo } } = getState()
-        console.log('product', product)
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
 
         const { data: { data, success } } = await axios.put(
             `/api/products/${product._id}`,
             product,
-            config
         )
         if (success) {
 
@@ -172,23 +145,13 @@ export const updateProduct = (product) => async(dispatch, getState) => {
 }
 
 
-export const createProductReview = (productId, review) => async(dispatch, getState) => {
+export const createProductReview = (productId, review) => async(dispatch) => {
     try {
         dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST })
-
-        const { userLogin: { userInfo } } = getState()
-
-        const config = {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`,
-            }
-        }
 
         const { data: { success } } = await axios.post(
             `/api/products/${productId}/reviews`,
             review,
-            config
         )
         if (success) {
 
