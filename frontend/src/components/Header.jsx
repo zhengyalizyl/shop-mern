@@ -3,6 +3,8 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
+import SearchBox from './SearchBox';
+import { Route ,Routes} from 'react-router-dom';
 
 export default function Header() {
     const userLogin = useSelector((state) => state.userLogin)
@@ -21,10 +23,13 @@ export default function Header() {
                     <LinkContainer to="/">
                         <Navbar.Brand >杨睿萱购物商店</Navbar.Brand>
                     </LinkContainer>
-
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-                        <Nav>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        {/* <Routes>
+                            <Route element={<SearchBox/>}/>
+                        </Routes> */}
+                        <SearchBox/>
+                        <Nav className="ml-auto">
                             <LinkContainer to="/cart">
                                 <Nav.Link >
                                     <i className='fas fa-shopping-cart' />

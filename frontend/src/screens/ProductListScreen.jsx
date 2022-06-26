@@ -5,14 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listProducts,deleteProduct,createProduct } from '../actions/productActions';
-import {useNavigate}  from 'react-router-dom'
+import {useNavigate,useParams}  from 'react-router-dom'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'; 
+import Paginate from '../components/Paginate';
 
 export default function ProductListScreen() {
   const dispatch = useDispatch();
+  const params = useParams();
+  const { keyword ,pageNumber=1} = params;
 
   const productList = useSelector((state) => state.productList)
-  const { loading, error, products } = productList;
+  const { loading, error, products,pages,page } = productList;
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin;
@@ -36,7 +39,7 @@ export default function ProductListScreen() {
             dispatch({type:PRODUCT_CREATE_RESET})
             navigate(`/admin/products/${createdProduct._id}/edit`)
         }else{
-            dispatch(listProducts())
+            dispatch(listProducts('',pageNumber))
         }
     } else {
       navigate('/login')
@@ -76,6 +79,7 @@ export default function ProductListScreen() {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
+          <>
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
@@ -117,6 +121,8 @@ export default function ProductListScreen() {
             )) }
           </tbody>
         </Table>
+        <Paginate pages={pages} page={page} isAdmin />
+        </>
       )}
 
     </>

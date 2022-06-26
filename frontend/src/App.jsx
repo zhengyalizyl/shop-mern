@@ -29,6 +29,9 @@ export default function App() {
                 <Container>
                     <Routes>
                         <Route path='/' element={<HomeScreen />} />
+                        <Route path='/page/:pageNumber' element={<HomeScreen />} />
+                        <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
+                        <Route path="/search/:keyword" element={<HomeScreen />}/>
                         <Route path="products" element={< ProductsScreen />}></Route>
                         <Route path="products/:id" element={<ProductScreen />} />
                         <Route path="cart/:id/*" element={<CartScreen />} />
@@ -43,6 +46,7 @@ export default function App() {
                         <Route path="admin/userlist" element={<UserListScreen/>}/>
                         <Route path="admin/user/:id/edit" element={<UserEditScreen/>}/>
                         <Route path="admin/productList" element={<ProductListScreen/>} />
+                        <Route path="admin/productList/:pageNumber" element={<ProductListScreen/>} />
                         <Route path="admin/products/:id/edit" element={<ProductEditScreen/>} />
                         <Route path="admin/orderlist" element={<OrderListScreen/>} />
 

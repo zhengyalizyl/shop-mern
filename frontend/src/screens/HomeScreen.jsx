@@ -5,19 +5,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listProducts } from '../actions/productActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
+import { useNavigate, useParams,Link,useLocation } from 'react-router-dom';
+import Paginate from '../components/Paginate';
 
 export default function HomeScreen() {
     const dispatch = useDispatch();
-    
+    const params = useParams();
+    const location = useLocation();
+    const { keyword ,pageNumber=1} = params;
 
+    const { loading, error, products,pages,page } = useSelector(state => state.productList);
     useEffect(() => {
-        dispatch(listProducts())
-    }, [dispatch])
-    const { loading, error, products } = useSelector(state => state.productList)
+        dispatch(listProducts(keyword,pageNumber))
+    }, [dispatch,keyword,pageNumber])
     return (
         <>
+            <Meta />
+            {keyword && (
+                <Link to='/' className='btn btn-light'>
+                    Go Back
+                </Link>
+            )}
             <h1>latest Product</h1>
             {loading ? <Loader></Loader> : error ? <Message variant="danger">{error}</Message> : (
+                <>
                 <Row>
                     {products.map(product => (
                         <Col sm={12} md={6} lg={4}>
@@ -25,6 +37,8 @@ export default function HomeScreen() {
                         </Col>
                     ))}
                 </Row>
+                <Paginate pages={pages} page={page} keyword={keyword}/>
+                </>
             )}
 
         </>
