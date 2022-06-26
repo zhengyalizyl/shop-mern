@@ -42,7 +42,7 @@ export const login = (email, password) => async(dispatch) => {
 
         dispatch({
             type: USER_LOGIN_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 }
@@ -64,7 +64,7 @@ export const register = (email, password) => async(dispatch) => {
 
         dispatch({
             type: USER_REGISTER_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 }
@@ -84,7 +84,7 @@ export const getUserDetails = (id) => async(dispatch) => {
 
         dispatch({
             type: USER_DETAILS_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 }
@@ -104,7 +104,7 @@ export const updateUserProfile = (user) => async(dispatch) => {
     } catch (error) {
 
         dispatch({
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+            payload: error,
             type: USER_UPDATE_PROFILE_FAIL,
         })
     }
@@ -125,7 +125,7 @@ export const listUsers = () => async(dispatch) => {
 
         dispatch({
             type: USER_LIST_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 }
@@ -144,7 +144,7 @@ export const deleteUser = (id) => async(dispatch) => {
 
         dispatch({
             type: USER_DELETE_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 }
@@ -162,7 +162,7 @@ export const updateUser = (id, data) => async(dispatch) => {
 
         dispatch({
             type: USER_UPDATE_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 }

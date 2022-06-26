@@ -47,8 +47,7 @@ export const createOrder = (order) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_CREATE_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };
@@ -71,8 +70,7 @@ export const getOrderDetails = (id) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_DETAILS_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };
@@ -94,8 +92,7 @@ export const payOrder = (orderId, paymentResult) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_PAY_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };
@@ -116,8 +113,7 @@ export const deliveredOrder = (orderId) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_DELIVERED_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };
@@ -139,8 +135,7 @@ export const listMyOrders = () => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_MY_LIST_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };
@@ -163,8 +158,7 @@ export const listOrders = () => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: ORDER_LIST_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };

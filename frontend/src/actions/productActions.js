@@ -46,7 +46,7 @@ export const listProducts = (keyword = '', pageNumber = '') => async(dispatch) =
 
         dispatch({
             type: PRODUCT_LIST_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 
@@ -66,7 +66,7 @@ export const getProduct = (id) => async(dispatch) => {
 
         dispatch({
             type: PRODUCT_DETAIL_FAIL,
-            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+            payload: error
         })
     }
 
@@ -84,8 +84,7 @@ export const deleteProduct = (id) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_DELETE_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 }
@@ -110,8 +109,7 @@ export const createProduct = () => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_CREATE_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 }
@@ -138,8 +136,7 @@ export const updateProduct = (product) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_UPDATE_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 }
@@ -165,8 +162,7 @@ export const createProductReview = (productId, review) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_CREATE_REVIEW_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 }
@@ -187,8 +183,7 @@ export const listTopProducts = () => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_TOP_FAIL,
-            payload: error.response && error.response.data.message ?
-                error.response.data.message : error.message,
+            payload: error
         });
     }
 };
