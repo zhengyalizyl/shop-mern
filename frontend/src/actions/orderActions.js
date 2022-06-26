@@ -215,7 +215,6 @@ export const listOrders = () => async(dispatch, getState) => {
             },
         };
         const { data: { data, success } } = await axios.get(`/api/orders`, config);
-        console.log(data, success)
         if (success) {
 
             dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
